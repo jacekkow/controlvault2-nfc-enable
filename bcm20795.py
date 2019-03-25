@@ -86,8 +86,9 @@ class BcmCommunicator:
 		bcm_interface = None
 		for interface in configuration:
 			if interface.bInterfaceClass == 0xff and interface.iInterface == 0x08:
+				if bcm_interface is not None:
+					raise Exception('More than one vendor-specific interface found!')
 				bcm_interface = interface
-				break
 		if bcm_interface is None:
 			raise Exception('Cannot find vendor-specific interface')
 		logger.debug('Interface found: {}'.format(bcm_interface._str()))
