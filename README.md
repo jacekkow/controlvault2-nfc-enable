@@ -28,6 +28,11 @@ Currently only the following devices were tested and are known to work:
 
 Firmware update (done during driver installation on Windows) may be required.
 
+## Tested on
+
+* Dell Latitude E7470
+* Dell Latitude 7280
+
 ## How it works?
 
 Python script sends the same sequence of commands the Windows driver does. The traffic was sniffed using USBPcap and Wireshark (kudos to [~jkramarz](https://github.com/jkramarz) for that).
