@@ -32,6 +32,7 @@ Firmware update (done during driver installation on Windows) may be required.
 
 * Dell Latitude E7470
 * Dell Latitude 7280
+* Dell Latitude 5491
 
 ## How it works?
 
