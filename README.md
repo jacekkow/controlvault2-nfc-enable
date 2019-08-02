@@ -14,7 +14,7 @@ This project aims to enable Linux to read NFC cards the same way Windows does.
 
 1. Clone the repository.
 1. Install python3 and python3-usb.
-1. Run: `./bcm20795.py on`
+1. Run: `./bcm20795.py on` (use `sudo` if necessary).
 1. Run `pcsc_scan` or whatever you prefer.
 1. Enjoy!
 

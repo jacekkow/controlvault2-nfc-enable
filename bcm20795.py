@@ -14,8 +14,9 @@ import time
 import usb.core
 import usb.util
 
-VENDOR_ID = 0x0A5C
-DEVICE_ID = 0x5834
+SUPPORTED_DEVICES = [
+	{'idVendor': 0x0A5C, 'idProduct': 0x5834},
+]
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -72,14 +73,29 @@ class BcmCommunicator:
 			if data[1] == 0x61:
 				packet = self.recv_packet()
 	
+	@staticmethod
+	def _dev_match(template, candidate):
+		for prop, value in template.items():
+			if prop not in candidate.__dict__ or candidate.__dict__[prop] != value:
+				return False
+		return True
+	
 	@classmethod
-	def find(cls, vendor_id, product_id):
+	def _dev_matcher(cls, dev):
+		for device in SUPPORTED_DEVICES:
+			if cls._dev_match(device, dev):
+				return True
+		return False
+	
+	@classmethod
+	def find(cls):
 		logger = logging.getLogger(__name__)
-		logger.info('Looking for device {:04X}:{:04X}...'.format(vendor_id, product_id))
+		logger.info('Looking for BCM device...')
 		
-		device = usb.core.find(idVendor=vendor_id, idProduct=product_id)
+		device = usb.core.find(custom_match=cls._dev_matcher)
 		if device is None:
-			raise Exception('Cannot find device {:04X}:{:04X}'.format(vendor_id, product_id))
+			raise Exception('Cannot find BCM device - check list of supported devices')
+		logger.info('Found {:04X}:{:04X}'.format(device.idVendor, device.idProduct))
 		
 		logger.debug('Enumerating interfaces...')
 		configuration = device.get_active_configuration()
@@ -159,7 +175,7 @@ if __name__ == "__main__":
 		print('Usage: {} [on|off]'.format(sys.argv[0]))
 		sys.exit(2)
 	
-	communicator = BcmCommunicator.find(VENDOR_ID, DEVICE_ID)
+	communicator = BcmCommunicator.find()
 	if sys.argv[1] == 'on':
 		logger.info('Turning NFC on...')
 		turn_on(communicator)
