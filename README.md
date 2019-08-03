@@ -25,6 +25,7 @@ To disable the reader replace `on` with `off`.
 Currently only the following devices were tested and are known to work:
 
 * `0a5c:5834`
+* `0a5c:5832`
 
 Firmware update (done during driver installation on Windows) may be required.
 
@@ -32,6 +33,8 @@ Firmware update (done during driver installation on Windows) may be required.
 
 * Dell Latitude E7470
 * Dell Latitude 7280
+* Dell Latitude 5491
+* Dell Latitude 5480 (with `0a5c:5832`)
 
 ## How it works?
 

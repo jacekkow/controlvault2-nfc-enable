@@ -16,6 +16,7 @@ import usb.util
 
 SUPPORTED_DEVICES = [
 	{'idVendor': 0x0A5C, 'idProduct': 0x5834},
+	{'idVendor': 0x0A5C, 'idProduct': 0x5832},
 ]
 
 logging.basicConfig(level=logging.DEBUG)
