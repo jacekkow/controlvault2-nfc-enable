@@ -35,6 +35,7 @@ Firmware update (done during driver installation on Windows) may be required.
 * Dell Latitude 7280
 * Dell Latitude 5491
 * Dell Latitude 5480 (with `0a5c:5832`)
+* Dell Latitude E5270 
 
 ## How it works?
 
