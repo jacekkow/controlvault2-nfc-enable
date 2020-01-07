@@ -31,6 +31,7 @@ Firmware update (done during driver installation on Windows) may be required.
 
 ## Tested on
 
+* Dell Latitude E7490
 * Dell Latitude E7470
 * Dell Latitude 7280
 * Dell Latitude 5491
