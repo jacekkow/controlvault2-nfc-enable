@@ -1,0 +1,529 @@
+idVendor 0x0A5C
+idProduct 0x5843
+
+Interface 4 - Application-Specific
+EP 1 IN
+EP 1 OUT
+EP 5 IN
+
+Interface 5 - Smart Card
+EP 2 IN
+EP 2 OUT
+EP 6 IN
+
+Interface 6 - Smart Card
+EP 3 IN
+EP 3 OUT
+EP 7 IN
+
+Interface 7 - Vendor Specific
+EP 4 IN
+EP 4 OUT
+EP 8 IN
+
+
+Legend:
+
+>  - New outgoing message (beginning)
+>> - Message continuation (division for readability)
+<  - New incoming message (beginning)
+<< - Message continuation (division for readability)
+# CTRL - Control endpoint communication (bmRequestType, bRequest, wValue, wIndex)
+
+Communication via Endpoint 4
+
+##########
+TURNING ON
+##########
+
+# CTRL 0x41 0x01 0x0000 0x0003
+
+>  01 00 00 04
+   01 = SPI_MASTER
+      00 = NO_CRC
+         00 04 = size
+>> 20 00 01 00
+   20 = NCI_MTS_CMD | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      00 = NCI_MSG_CORE_RESET
+         01 = NCI_CORE_PARAM_SIZE_RESET
+            00 = NCI_RESET_TYPE_KEEP_CFG
+
+<  00 00 00 06
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 06 = size
+<< 40 00 03 00 10 00
+   40 = NCI_MTS_RSP | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      00 = NCI_MSG_CORE_RESET
+         03 = NCI_CORE_PARAM_SIZE_RESET_RSP
+            00 = NCI_STATUS_OK
+               10 = NCI_VERSION (1.0)
+                  00 = NCI_RESET_STATUS_KEPT_CFG
+
+# CTRL 0x41 0x01 0x0001 0x0003
+
+# CTRL 0x41 0x00 0x0000 0x0003
+
+# CTRL 0x41 0x00 0x0001 0x0003
+
+# CTRL 0x41 0x01 0x0000 0x0003
+
+>  01 00 00 04
+   01 = SPI_MASTER
+      00 = NO_CRC
+         00 04 = size
+>> 20 00 01 00
+   20 = NCI_MTS_CMD | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      00 = NCI_MSG_CORE_RESET
+         01 = NCI_CORE_PARAM_SIZE_RESET
+            00 = NCI_RESET_TYPE_KEEP_CFG
+
+<  00 00 00 06
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 06 = size
+<< 40 00 03 00 11 00
+   40 = NCI_MTS_RSP | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      00 = NCI_MSG_CORE_RESET
+         03 = NCI_CORE_PARAM_SIZE_RESET_RSP
+            00 = NCI_STATUS_OK
+               11 = NCI_VERSION (1.1)
+                  00 = NCI_RESET_STATUS_KEPT_CFG
+
+>  01 00 00 03
+   01 = SPI_MASTER
+      00 = NO_CRC
+         00 03 = size
+>> 20 01 00
+   20 = NCI_MTS_CMD | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      01 = NCI_MSG_CORE_INIT
+         00 = size
+
+<  00 00 00 1a
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 1a = size
+<< 40 01 17 00
+   40 = NCI_MTS_RSP | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      01 = NCI_MSG_CORE_INIT
+         17 = size
+            00 = NCI_STATUS_OK
+<< 03 0e 02 01
+   03 0e 02 01 NFCC_FEATURES
+   02 = multiple NFCEEs
+   01 = RF_DISCOVER_CMD supported
+      08 = AID-based routing supported
+      04 = Protocol-based routing supported
+      02 = Technology-based routing supported
+         02 = Switched-off state supported
+            01 = Proprietary parameters
+<< 06 00 01 02 03 81 83
+   06 = num_of_ifaces (6)
+      00 = NCI_INTERFACE_EE_DIRECT_RF
+         01 = NCI_INTERFACE_FRAME
+            02 = NCI_INTERFACE_ISO_DEP
+               03 = NCI_INTERFACE_NFC_DEP
+                  81 = Proprietary Interface (81)
+                     83 = Proprietary Interface (83)
+
+<< 08 00 04 ff 0f 00 2e 04 10 2b 41
+   08 = num_of_conns_max (8)
+      00 04 = num_of_routes_max
+            ff = size_control_payload_max
+               0f 00 = size_large_params_max
+                     2e = manufacturer_id
+                        04 10 2b 41 = manufacturer_specific
+
+>  01 00 00 05
+   01 = SPI_MASTER
+      00 = NO_CRC
+         00 05 = size
+>> 20 03 02 01 52
+   20 = NCI_MTS_CMD | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      03 = NCI_MSG_CORE_GET_CONFIG
+         02 = num_of_params (2)
+            01 = CON_DEVICES_LIMIT
+               52 = LF_T3T_MAX
+
+<  00 00 00 08
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 08 = size
+<< 40 03 05 00 01 52 01 10
+   40 = NCI_MTS_RSP | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      03 = NCI_MSG_CORE_GET_CONFIG
+         ???
+
+>  01 00 00 22
+   01 = SPI_MASTER
+      00 = NO_CRC
+         00 22 = size
+>> 20 02 1f 0a
+   20 = NCI_MTS_CMD | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      02 = NCI_MSG_CORE_SET_CONFIG
+         1f = size
+            0a = num_of_params (10)
+>> 21 01 00
+   21 = PI_BIT_RATE
+      01 = size_of_param
+         00 = 106 Kbit/s
+>> 28 01 00
+   28 = PN_NFC_DEP_SPEED
+      01 = size_of_param
+         00 = Highest Available Bitrate
+>> 30 01 04
+   30 = LA_BIT_FRAME_SDD
+      01 = size_of_param
+         04 = Bit Frame SDD value to be sent in Byte 1 of SENS_RES
+>> 31 01 03
+   31 = LA_PLATFORM_CONFIG
+      01 = size_of_param
+         03 = Platform Configuration value to be sent in Byte 2 of SENS_RES
+>> 54 01 06
+   54 = LF_CON_BITR_F
+      01 = size_of_param
+         02 = listen for 212 kbps
+         04 = listen for 424 kbps
+>> 5b 01 00
+   5b = LI_BIT_RATE
+      01 = size_of_param
+         00 = 106 Kbit/s
+>> 60 01 07
+   60 = LN_WT
+      01 = size_of_param
+         07 = waiting time (7)
+>> 80 01 01
+   80 = RF_FIELD_INFO
+      01 = size_of_param
+         01 = RF_FIELD_INFO_NTF allowed
+>> 81 01 01
+   81 = RF_NFCEE_ACTION
+      01 = size_of_param
+         01 = send RF NFCEE Actions
+>> 82 01 0e
+   82 = NFCDEP_OP
+      01 = size_of_param
+         02 = ATTENTION only for error recovery
+         04 = don't send msgs without Transport Data Bytes
+         08 = chaining uses max number of Transport Data Bytes
+
+<  00 00 00 05
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 05 = size
+<< 40 02 02 00 00
+   40 = NCI_MTS_RSP | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      02 = NCI_MSG_CORE_SET_CONFIG
+         02 = size
+            00 = NCI_STATUS_OK
+               00 = num_of_invalid_params (0)
+
+>  01 00 00 13
+   01 = SPI_MASTER
+      00 = NO_CRC
+         00 13 = size
+>> 21 00 10 05
+   21 = NCI_MTS_CMD | NCI_PBF_NO_OR_LAST | NCI_GID_RF_MANAGE
+      00 = NCI_MSG_RF_DISCOVER_MAP
+         10 = size (16)
+            05 = num_mapping_configs
+>> 04 03 02
+   04 = NCI_PROTOCOL_ISO_DEP
+      03 = NCI_INTERFACE_MODE_POLL_N_LISTEN
+         02 = NCI_INTERFACE_ISO_DEP
+>> 05 03 03
+   05 = NCI_PROTOCOL_NFC_DEP
+      03 = NCI_INTERFACE_MODE_POLL_N_LISTEN
+         03 = NCI_INTERFACE_NFC_DEP
+>> 01 01 01
+   01 = PROTOCOL_T1T
+      01 = NCI_INTERFACE_MODE_POLL
+         01 = NCI_INTERFACE_FRAME
+>> 02 01 01
+   02 = PROTOCOL_T2T
+      01 = NCI_INTERFACE_MODE_POLL
+         01 = NCI_INTERFACE_FRAME
+>> 03 01 01
+   03 = PROTOCOL_T3T
+      01 = NCI_INTERFACE_MODE_POLL
+         01 = NCI_INTERFACE_FRAME
+
+<  00 00 00 04
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 04 = size
+<< 61 07 01 00
+   61 = NCI_MTS_NTF | NCI_PBF_NO_OR_LAST | NCI_GID_RF_MANAGE
+      07 = NCI_MSG_RF_FIELD
+         01 = size
+            00 = No RF field
+
+<  00 00 00 04
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 04 = size
+<< 41 00 01 00
+   41 = NCI_MTS_RSP | NCI_PBF_NO_OR_LAST | NCI_GID_RF_MANAGE
+      00 = NCI_MSG_RF_DISCOVER_MAP
+         01 = NCI_DISCOVER_PARAM_SIZE_RSP
+            00 = NCI_STATUS_OK
+
+
+>  01 00 00 0a
+   01 = SPI_MASTER
+      00 = NO_CRC
+         00 0a = size
+>> 21 01 07 00 01 01 03 00 01 05
+   21 = NCI_MTS_CMD | NCI_PBF_NO_OR_LAST | NCI_GID_RF_MANAGE
+      01 = NCI_MSG_RF_SET_ROUTING
+         07 = size
+            00 = last message
+               01 = routing_entries (1)
+                  01 = protocol-based routing
+                     03 = length (3)
+                        00 = DH NFCEE ID
+                           01 = power state (1 - switched on)
+                              05 = PROTOCOL_NFC_DEP
+
+
+<  00 00 00 04
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 04 = size
+<< 41 01 01 00
+   41 = NCI_MTS_RSP | NCI_PBF_NO_OR_LAST | NCI_GID_RF_MANAGE
+      01 = NCI_MSG_RF_SET_ROUTING
+         01 = size
+            00 = NCI_STATUS_OK
+
+>  01 00 00 0c
+   01 = SPI_MASTER
+      00 = NO_CRC
+         00 0c = size
+>> 20 02 09 01
+   20 = NCI_MTS_CMD | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      02 = NCI_MSG_CORE_SET_CONFIG
+         09 = size
+            01 = num_of_params
+>> b9 06 01 00 00 0b 00 00
+   b9 = Proprietary parameter (b9)
+      06 = size_of_param
+
+<  00 00 00 05
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 05 = size
+<< 40 02 02 00 00
+   40 = NCI_MTS_RSP | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      02 = NCI_MSG_CORE_SET_CONFIG
+         02 = size
+            00 = NCI_STATUS_OK
+               00 = num_of_invalid_params (0)
+
+>  01 00 00 ca
+   01 = SPI_MASTER
+      00 = NO_CRC
+         00 ca = size
+>> 20 02 c7 11
+   20 = NCI_MTS_CMD | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      02 = NCI_MSG_CORE_SET_CONFIG
+         c7 = size
+            11 = num_of_params (17)
+>> 18 01 02
+   18 = PF_BIT_RATE
+      01 = size_of_param
+         02 = 424 Kbit/s
+>> 2a 01 32
+   2a = PN_ATR_REQ_CONFIG
+      01 = size_of_param
+         30 = 0011b for LLCP
+         02 = ?
+>> 80 01 00
+   80 = RF_FIELD_INFO
+      01 = size_of_param
+         00 = RF_FIELD_INFO_NTF not allowed
+>> c2 02 03 02
+   c2 = Proprietary parameter (c2)
+      02 = size_of_param
+>> c4 02 00 13
+   c4 = Proprietary parameter (c4)
+      02 = size_of_param
+>> ca 05 00 0f 0d 03 08
+   ca = Proprietary parameter (ca)
+      05 = size_of_param
+>> cb 01 00
+   cb = Proprietary parameter (cb)
+      01 = size_of_param
+>> d6 0b 01 01 00 01 12 00 01 00 01 00 01
+   d6 = Proprietary parameter (d6)
+      0b = size_of_param
+>> d8 01 01
+   d8 = Proprietary parameter (d8)
+      01 = size_of_param
+>> de 04 01 00 00 00
+   de = Proprietary parameter (de)
+      04 = size_of_param
+>> e0 07 00 60 93 1c 63 3e 0a
+   e0 = Proprietary parameter (e0)
+      07 = size_of_param
+>> e1 02 79 07
+   e1 = Proprietary parameter (e1)
+      02 = size_of_param
+>> e2 2a 48 07 0c 10 00 31 39 39 39 39 39 39 39 39 39 39 41 39 90 90 90 90 3f 90 90 90 88 8a 8c 94 94 28 04 07 00 00 00 00 00 00 00 00
+   e2 = Proprietary parameter (e2)
+      2a = size_of_param
+>> e3 08 17 04 16 0d 10 0c 2b 0b
+   e3 = Proprietary parameter (e3)
+      08 = size_of_param
+>> e4 01 37
+   e4 = Proprietary parameter (e4)
+      01 = size_of_param
+>> e5 1e e0 1e 02 12 00 0a 00 10 04 54 54 54 54 2b 52 50 53 4e 20 2d 18 0c 02 07 00 94 70 94 70 20
+   e5 = Proprietary parameter (e5)
+      1e = size_of_param
+>> e6 2d 01 68 00 77 00 8b 00 a7 00 d6 00 22 01 c0 01 9e 58 4c 40 33 26 20 1e 68 00 77 00 8b 00 a7 00 d6 00 22 01 c0 01 5e 58 4c 40 33 2b 26 1e
+   e6 = Proprietary parameter (e6)
+      2d = size_of_param
+
+<  00 00 00 05
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 05 = size
+<< 40 02 02 00 00
+   40 = NCI_MTS_RSP | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      02 = NCI_MSG_CORE_SET_CONFIG
+         02 = size
+            00 = NCI_STATUS_OK
+               00 = num_of_invalid_params (0)
+
+>  01 00 00 09
+   01 = SPI_MASTER
+      00 = NO_CRC
+         00 09 = size
+>> 2f 1b 06 08 00 00 01 00 00
+   2f = NCI_MTS_CMD | NCI_PBF_NO_OR_LAST | NCI_GID_PROP
+      1b = Proprietary message (1b)
+         06 = size
+
+<  00 00 00 04
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 04 = size
+<< 4f 1b 01 00
+   4f = NCI_MTS_RSP | NCI_PBF_NO_OR_LAST | NCI_GID_PROP
+      1b = Proprietary message (1b)
+         01 = size
+
+>  01 00 00 30
+   01 = SPI_MASTER
+      00 = NO_CRC
+         00 30 = size
+>> 20 02 2d 04
+   20 = NCI_MTS_CMD | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      02 = NCI_MSG_CORE_SET_CONFIG
+         2d = size
+            04 = num_of_params (4)
+>> 29 11 46 66 6d 01 01 11 02 02 03 80 03 02 00 01 04 01 64
+   29 = PN_ATR_REQ_GEN_BYTES
+      11 = size_of_param
+         General Bytes for ATR_REQ
+>> 2a 01 30
+   2a = PN_ATR_REQ_CONFIG
+      01 = size_of_param
+         30 = 0011b for LLCP
+>> 61 11 46 66 6d 01 01 11 02 02 03 80 03 02 00 01 04 01 64
+   61 = LN_ATR_RES_GEN_BYTES
+      11 = size_of_param
+         General Bytes in ATR_RES
+>> 62 01 30
+   62 = LN_ATR_RES_CONFIG
+      01 = size_of_param
+         30 = 0011b for LLCP
+
+<  00 00 00 05
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 05 = size
+<< 40 02 02 00 00
+   40 = NCI_MTS_RSP | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      02 = NCI_MSG_CORE_SET_CONFIG
+         02 = size
+            00 = NCI_STATUS_OK
+               00 = num_of_invalid_params (0)
+
+>  01 00 00 11
+   01 = SPI_MASTER
+      00 = NO_CRC
+         00 11 = size
+>> 20 02 0e 04
+   20 = NCI_MTS_CMD | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      02 = NCI_MSG_CORE_SET_CONFIG
+         0e = size
+            04 = num_of_params (4)
+>> 18 01 01
+   18 = PF_BIT_RATE
+      01 = size_of_param
+         01 = 212 Kbit/s
+>> 32 01 40
+   32 = LA_SEL_INFO
+      01 = size_of_param
+         40 = NFC-DEP
+>> 50 01 02
+   50 = LF_PROTOCOL_TYPE
+      01 = size_of_param
+         02 = NFC-DEP
+>> 00 02 2c 01
+   00 = TOTAL_DURATION
+      02 = size_of_param
+         2c 01 = 11 256 ms
+
+<  00 00 00 05
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 05 = size
+<< 40 02 02 00 00
+   40 = NCI_MTS_RSP | NCI_PBF_NO_OR_LAST | NCI_GID_CORE
+      02 = NCI_MSG_CORE_SET_CONFIG
+         02 = size
+            00 = NCI_STATUS_OK
+               00 = num_of_invalid_params (0)
+
+>  01 00 00 10
+   01 = SPI_MASTER
+      00 = NO_CRC
+         00 10 = size
+>> 21 03 0d 06
+   21 = NCI_MTS_CMD | NCI_PBF_NO_OR_LAST | NCI_GID_RF_MANAGE
+      03 = NCI_MSG_RF_DISCOVER
+         0d = size
+            06 = num_of_configs (6)
+>> 00 01
+   00 = NFC_A_PASSIVE_POLL_MODE
+      01 = every discovery period
+>> 01 01
+   01 = NFC_B_PASSIVE_POLL_MODE
+      01 = every discovery period
+>> 02 01
+   02 = NFC_F_PASSIVE_POLL_MODE
+      01 = every discovery period
+>> 06 01
+   06 = NFC_15693_PASSIVE_POLL_MODE
+      01 = every discovery period
+>> 80 01
+   80 = NFC_A_PASSIVE_LISTEN_MODE
+      01 = every discovery period
+>> 82 01
+   82 = NFC_F_PASSIVE_LISTEN_MODE
+      01 = every discovery period
+
+<  00 00 00 04
+   00 = SPI_SLAVE
+      00 = NO_CRC
+         00 04 = size
+<< 41 03 01 00
+   41 = NCI_MTS_RSP | NCI_PBF_NO_OR_LAST | NCI_GID_RF_MANAGE
+      03 = NCI_MSG_RF_DISCOVER
+         01 = size
+            00 = STATUS_OK
+
+# CTRL 0x41 0x01 0x0001 0x0003
