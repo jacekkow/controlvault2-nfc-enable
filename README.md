@@ -39,6 +39,7 @@ Firmware update (done during driver installation on Windows) may be required.
 * Dell Latitude 7390
 * Dell Latitude 7400
 * Dell Latitude E5270
+* Dell Latitude E5570
 * Dell Latitude E7470
 * Dell Latitude E7490
 
