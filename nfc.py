@@ -19,6 +19,7 @@ class UsbDeviceFinder:
 	SUPPORTED_DEVICES = [
 		UsbDeviceMatcher({'idVendor': 0x0A5C, 'idProduct': 0x5832}, lambda device: __import__('cv2').ControlVault2(device)),
 		UsbDeviceMatcher({'idVendor': 0x0A5C, 'idProduct': 0x5834}, lambda device: __import__('cv2').ControlVault2(device)),
+		UsbDeviceMatcher({'idVendor': 0x0A5C, 'idProduct': 0x5842}, lambda device: __import__('cv3').ControlVault3(device)),
 		UsbDeviceMatcher({'idVendor': 0x0A5C, 'idProduct': 0x5843}, lambda device: __import__('cv3').ControlVault3(device)),
 	]
 
