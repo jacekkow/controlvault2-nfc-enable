@@ -26,12 +26,14 @@ Currently only the following devices were tested and are known to work:
 
 * `0a5c:5832` (ControlVault 2),
 * `0a5c:5834` (ControlVault 2),
+* `0a5c:5842` (ControlVault 3).
 * `0a5c:5843` (ControlVault 3).
 
 Firmware update (done during driver installation on Windows) may be required.
 
 ## Tested on
 
+* Dell Latitude 5310 2-in-1
 * Dell Latitude 5480
 * Dell Latitude 5491
 * Dell Latitude 7280
