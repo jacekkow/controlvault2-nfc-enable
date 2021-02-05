@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import logging
+import os
 import sys
 import usb.core
 
@@ -57,7 +58,7 @@ if __name__ == "__main__":
 		print('Usage: {} [on|off|reset]'.format(sys.argv[0]))
 		sys.exit(2)
 
-	logging.basicConfig(level=logging.DEBUG)
+	logging.basicConfig(level=os.environ.get('LOGLEVEL', 'DEBUG'))
 	logger = logging.getLogger(__name__)
 
 	handler = UsbDeviceFinder.find()
