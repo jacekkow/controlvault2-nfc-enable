@@ -59,11 +59,20 @@ class ControlVaultCommunicator:
 		self.logger.debug('Enumerating interfaces...')
 		configuration = self.device.get_active_configuration()
 		bcm_interface = None
+		has_contacted = False
+		has_contactless = False
 		for interface in configuration:
 			if interface.bInterfaceClass == 0xff:
 				if bcm_interface is not None:
 					raise Exception('More than one vendor-specific interface found!')
 				bcm_interface = interface
+			if interface.bInterfaceClass == 0xb:
+				if interface.iInterface == 0x5:
+					has_contacted = True
+				if interface.iInterface == 0x6:
+					has_contactless = True
+		if not has_contactless:
+			raise Exception('No contactless reader on this device!')
 		if bcm_interface is None:
 			raise Exception('Cannot find vendor-specific interface')
 		self.logger.debug('Interface found: {}'.format(bcm_interface._str()))
