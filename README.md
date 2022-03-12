@@ -13,7 +13,7 @@ This project aims to enable Linux to read NFC cards the same way Windows does.
 ## Usage
 
 1. Clone the repository.
-1. Install python3 and python3-usb.
+1. Install python3 and python3-usb ([pyusb](https://pypi.org/project/pyusb/#files)).
 1. Run: `./nfc.py on` (use `sudo` if necessary).
 1. Run `pcsc_scan` or whatever you prefer.
 1. Enjoy!
@@ -36,6 +36,7 @@ Firmware update (done during driver installation on Windows) may be required.
 * Dell Latitude 5310 2-in-1
 * Dell Latitude 5480
 * Dell Latitude 5491
+* Dell Latitude 7270
 * Dell Latitude 7280
 * Dell Latitude 7290
 * Dell Latitude 7390

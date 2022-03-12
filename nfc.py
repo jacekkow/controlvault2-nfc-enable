@@ -60,6 +60,30 @@ if __name__ == "__main__":
 	logging.basicConfig(level=logging.DEBUG)
 	logger = logging.getLogger(__name__)
 
+	logger.info("Checking for dependencies...")
+	if "pyusb" not in {pkg.key for pkg in pkg_resources.working_set}:
+		logger.info("pyusb is not available.")
+
+		if (input("Seems you are missing \"pyusb\". Would you like to install it now? (y/N)") == 'y'):
+			try:
+				print("> pip install pyusb")
+				cp = subprocess.run(["pip", "install", "pyusb"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+				print(cp.stdout.decode())
+
+			except Exception as e:
+				print(str(e) + "\nERROR: There was a problem and the package could not be installed.\n"
+					"Try installing the library manually with pip:\n"
+					"> pip install pyusb\n"
+					"More info here: https://pypi.org/project/pyusb/#files\n and here: https://github.com/walac/pyusb")
+				sys.exit()
+
+			print("Success: pyusb has been installed")
+
+		else:
+			logger.info("...permission denied")
+			raise Exception("Missing required library: pyusb.")
+	logger.info("pyusb is installed.")
+
 	handler = UsbDeviceFinder.find()
 	if sys.argv[1] == 'on':
 		logger.info('Turning NFC on...')
