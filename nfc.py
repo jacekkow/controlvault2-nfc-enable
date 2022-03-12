@@ -2,7 +2,9 @@
 
 import logging
 import sys
-import usb.core
+import pkg_resources
+import subprocess
+#import usb.core 	imported later on in order to allow checking weather it is installed
 
 class UsbDeviceMatcher:
 	def __init__(self, properties, handler):
@@ -64,7 +66,7 @@ if __name__ == "__main__":
 	if "pyusb" not in {pkg.key for pkg in pkg_resources.working_set}:
 		logger.info("pyusb is not available.")
 
-		if (input("Seems you are missing \"pyusb\". Would you like to install it now? (y/N)") == 'y'):
+		if (input("Seems you are missing the required library \'pyusb\'.\nWould you like to install it now? (y/N): ") == 'y'):
 			try:
 				print("> pip install pyusb")
 				cp = subprocess.run(["pip", "install", "pyusb"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -72,18 +74,21 @@ if __name__ == "__main__":
 
 			except Exception as e:
 				print(str(e) + "\nERROR: There was a problem and the package could not be installed.\n"
-					"Try installing the library manually with pip:\n"
-					"> pip install pyusb\n"
+                               "Try installing the library manually."
 					"More info here: https://pypi.org/project/pyusb/#files\n and here: https://github.com/walac/pyusb")
 				sys.exit()
 
-			print("Success: pyusb has been installed")
+			print("Success: \'pyusb\' has been installed")
 
 		else:
 			logger.info("...permission denied")
-			raise Exception("Missing required library: pyusb.")
+			sys.exit()
+			
 	logger.info("pyusb is installed.")
-
+    
+    # It is now safe to import usb
+	import usb.core
+    
 	handler = UsbDeviceFinder.find()
 	if sys.argv[1] == 'on':
 		logger.info('Turning NFC on...')
