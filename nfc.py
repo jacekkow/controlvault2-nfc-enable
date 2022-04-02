@@ -13,8 +13,11 @@ if __name__ == "__main__":
 	try:
 		from usbhandler import UsbDeviceFinder
 	except ImportError as e:
+		print("Unable to load module: " + e.name, file=sys.stderr)
+
 		if e.name == 'usb':
-			print("'usb' module note found!.\nThe 'pyusb' library is required.")
+			print("The 'pyusb' library is required.")
+		
 		sys.exit(1)    
 	
 	handler = UsbDeviceFinder.find()
