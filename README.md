@@ -44,6 +44,8 @@ Firmware update (done during driver installation on Windows) may be required.
 * Dell Latitude E5570
 * Dell Latitude E7470
 * Dell Latitude E7490
+* Dell Latitude Rugged 5414
+* Dell Latitude Rugged 5420
 
 ## How it works?
 
