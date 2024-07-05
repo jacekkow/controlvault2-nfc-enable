@@ -34,6 +34,7 @@ Firmware update (done during driver installation on Windows) may be required.
 ## Tested on
 
 * Dell Latitude 5310 2-in-1
+* Dell Latitude 5420
 * Dell Latitude 5480
 * Dell Latitude 5491
 * Dell Latitude 7280
