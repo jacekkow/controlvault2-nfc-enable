@@ -28,6 +28,7 @@ Currently only the following devices were tested and are known to work:
 * `0a5c:5834` (ControlVault 2),
 * `0a5c:5842` (ControlVault 3).
 * `0a5c:5843` (ControlVault 3).
+* `0a5c:5864` (ControlVault 3).
 
 Firmware update (done during driver installation on Windows) may be required.
 
@@ -47,6 +48,7 @@ Firmware update (done during driver installation on Windows) may be required.
 * Dell Latitude E7490
 * Dell Latitude Rugged 5414
 * Dell Latitude Rugged 5420
+* Dell Precision 3591
 
 ## How it works?
 
